@@ -12,6 +12,7 @@
 #define BUTTON_PLUS 0xBF40FF00     // Replace with your "+" button code
 #define BUTTON_MINUS 0xE619FF00    // Replace with your "-" button code
 #define BUTTON_ENTER 0xEA15FF00
+#define BUTTON_POWER 0xBA45FF00
 
 void setup() {
   IrReceiver.begin(IR_RECEIVE_PIN, ENABLE_LED_FEEDBACK); // Start IR receiver with LED feedback
@@ -39,6 +40,8 @@ void loop() {
       activateLED(RED_PIN);
     } else if (code == BUTTON_ENTER) {
       Serial.println("ENTER");
+    } else if (code == BUTTON_POWER) {
+      Serial.println("POWER");
     }
 
     IrReceiver.resume(); // Enable receiving of the next value
