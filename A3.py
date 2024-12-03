@@ -98,4 +98,28 @@ def save_images():
     for image_path in images:
         if image_path in deleted:
             continue  # Skip deleted images
-... (26 lines left)
+        elif image_path in favorites:
+            save_image_to_folder(image_path, favorited_folder)
+        else:
+            save_image_to_folder(image_path, accepted_folder)
+
+# Function to save a single image to a folder
+def save_image_to_folder(image_path, folder):
+    filename = os.path.basename(image_path)
+    destination = os.path.join(folder, filename)
+    shutil.copy(image_path, destination)
+
+# Continuously listen for commands
+def listen_to_arduino():
+    if ser.in_waiting > 0:
+        command = ser.readline().decode('utf-8').strip()
+        handle_command(command)
+    root.after(100, listen_to_arduino)
+
+# Start the application
+if images:
+    show_image(current_image_index)
+    root.after(100, listen_to_arduino)  # Start listening to Arduino
+    root.mainloop()
+else:
+    print("No images found in the folder!")
